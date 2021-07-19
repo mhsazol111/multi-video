@@ -1,0 +1,8 @@
+{
+  "cSpell.words": [
+    "videojs"
+  ],
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}
