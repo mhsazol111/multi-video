@@ -163,6 +163,36 @@
         `);
       });
 
+      const currentVideoPlayer = videojs(`my-player${currentVideoId}`);
+
+      currentVideoPlayer.on('seeked', handleSeeking);
+      currentVideoPlayer.on('pause', handlePause);
+      currentVideoPlayer.on('play', handleResume);
+
+      function handleSeeking() {
+        const currentTime = currentVideoPlayer.currentTime();
+        const remainingPlayer = players.filter((player) => {
+          return player.id !== currentVideoId;
+        });
+
+        remainingPlayer.map((player) => {
+          videojs.getPlayer(`my-player${player.id}`).currentTime(currentTime);
+        });
+      }
+
+      function handlePause() {
+        players.map((player) => {
+          videojs.getPlayer(`my-player${player.id}`).pause();
+        });
+      }
+
+      function handleResume() {
+        players.map((player) => {
+          console.log('play');
+          videojs.getPlayer(`my-player${player.id}`).play();
+        });
+      }
+
       function next() {
         if (currentVideoId === players.length) {
           currentVideoId = 1;
@@ -202,7 +232,6 @@
         document.querySelector(`#video-wrapper-${currentVideoId}`).classList.add('wrapper-visible');
         videojs.getPlayer(`my-player${currentVideoId}`).dimensions(1020, 574);
       }
-
     </script>
   </body>
 </html>
